@@ -13,9 +13,13 @@ public class Main {
         // mostrar cantidad de bugs
         JOptionPane.showMessageDialog(null, "Cantidad de bugs: " + Bug.getCantidadBug());
         // mostrar datos de los bugs
-        for (int i = 0; i < BugTracker.cantidadBugs; i++) {
-            JOptionPane.showMessageDialog(null, BugTracker.bugs[i].GetDetalle());
-        }
+        /*
+         * for (int i = 0; i < BugTracker.cantidadBugs; i++) {
+         * JOptionPane.showMessageDialog(null, BugTracker.bugs[i].GetDetalle());
+         * }
+         */
+        // listar bugs
+        BugTracker.listarBugs();
 
     }
 }
