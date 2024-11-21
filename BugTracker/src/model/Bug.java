@@ -65,7 +65,7 @@ public class Bug extends Incidence {
                 + getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n"
                 + "Fecha Finalización: pendiente"
                 /* + getFechaFinalizacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) */ + "\n" + "Severidad: "
-                + getSeveridad() + "\n" + "Módulo Afectado: " + getModuloAfectado();
+                + getSeveridad() + "\n" + "Módulo Afectado: " + getModuloAfectado() + "\n";
     }
 
     @Override
