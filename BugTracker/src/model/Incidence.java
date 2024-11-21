@@ -72,19 +72,19 @@ public abstract class Incidence {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public LocalDate  getFechaFinalizacion() {
+    public LocalDate getFechaFinalizacion() {
         return fechaFinalizacion;
     }
 
-    public void setFechaFinalizacion(LocalDate  fechaFinalizacion) {
+    public void setFechaFinalizacion(LocalDate fechaFinalizacion) {
         this.fechaFinalizacion = fechaFinalizacion;
     }
 
     // #endregion
 
     public Incidence(int numeroId, String titulo, String descripcion, Estado estado, Prioridad prioridad,
-            LocalDate  fechaCreacion,
-            LocalDate  fechaFinalizacion) {
+            LocalDate fechaCreacion,
+            LocalDate fechaFinalizacion) {
         this.numeroId = numeroId;
         this.titulo = titulo;
         this.descripcion = descripcion;

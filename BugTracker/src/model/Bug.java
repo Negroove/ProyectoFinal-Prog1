@@ -18,7 +18,7 @@ public class Bug extends Incidence {
     private String moduloAfectado;
     private static int cantidadBug;
 
-    // #region
+    // #region SETTERS Y GETTERS
     public Severidad getSeveridad() {
         return severidad;
     }
@@ -43,7 +43,7 @@ public class Bug extends Incidence {
         Bug.cantidadBug = cantidadBug;
     }
 
-    // endregion
+    // #endregion
 
     public Bug(int numeroId, String titulo, String descripcion, Estado estado, Prioridad prioridad,
             LocalDate fechaCreacion,
@@ -60,7 +60,12 @@ public class Bug extends Incidence {
 
     @Override
     public String GetDetalle() {
-        return "";
+        return "Bug ID: " + getNumeroId() + "\n" + "Titulo: " + getTitulo() + "\n" + "Descripción: " + getDescripcion()
+                + "\n" + "Estado: " + getEstado() + "\n" + "Prioridad: " + getPrioridad() + "\n" + "Fecha Creación: "
+                + getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n"
+                + "Fecha Finalización: pendiente"
+                /* + getFechaFinalizacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) */ + "\n" + "Severidad: "
+                + getSeveridad() + "\n" + "Módulo Afectado: " + getModuloAfectado();
     }
 
     @Override
@@ -71,7 +76,7 @@ public class Bug extends Incidence {
                 Bug.Severidad.class));
 
         setModuloAfectado(Herramientas.solicitarTexto("Ingrese el módulo afectado: "));
-        setDescripcion(Herramientas.solicitarTexto("Ingrese el titulo del bug: "));
+        setDescripcion(Herramientas.solicitarTexto("Ingrese la descripción del bug: "));
         setEstado(Herramientas.mostrarOpcionesConEnum("Seleccione Estado",
                 Bug.Estado.class));
         setFechaCreacion(Herramientas.solicitarFecha());
