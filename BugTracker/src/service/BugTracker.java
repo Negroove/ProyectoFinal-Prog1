@@ -26,35 +26,75 @@ public class BugTracker {
     // listar bugs mostrando una lista general con los datos de cada uno
     public static void listarBugs() {
         StringBuilder lista = new StringBuilder("Lista de bugs: \n" + "\n");
-        for (int i = 0; i < cantidadBugs; i++) {
-            lista.append(bugs[i].GetDetalle()).append("\n");
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder listar luego.",
+                    "Error", 0);
+        } else {
+            for (int i = 0; i < cantidadBugs; i++) {
+                lista.append(bugs[i].GetDetalle()).append("\n");
+            }
+            JOptionPane.showMessageDialog(null, lista);
         }
-        JOptionPane.showMessageDialog(null, lista);
     }
-    // buscar bugs por nombre 
 
-    public static void buscarBugsPorTitulo(){
-        boolean encontrado = false ;
-        if (bugs.length == 0){
-            Herramientas.mostrarMensajes("No hay incidencias o bugs cargados","Error",0);
-        }else{
-            String nombreBug = Herramientas.solicitarTexto("Ingrese el nombre del bug a buscar");
-            StringBuilder bugEncontrado = new StringBuilder("Bug encontrados:\n");
+    // #region Métodos buscadores
+    // buscar bugs por ID
+    public static void buscarBugPorID() {
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
+                    "Error", 0);
+        } else {
+            int iDingresado = Herramientas.solicitarEntero("Ingresá el ID (Número entero)");
+            int inicio = 0;
+            int fin = cantidadBugs - 1; // Adjust to the number of registered bugs
 
-            for (int i = 0; i < bugs.length; i++) {
-                if (bugs[i] != null && bugs[i].getTitulo().contains(nombreBug.toLowerCase())) {
-                    bugEncontrado.append(bugs[i].GetDetalle()).append("\n");
-                    encontrado = true;
+            while (inicio <= fin) {
+                int centro = (inicio + fin) / 2;
+
+                if (iDingresado < bugs[centro].getNumeroId()) {
+                    fin = centro - 1;
+                } else if (iDingresado > bugs[centro].getNumeroId()) {
+                    inicio = centro + 1;
+                } else {
+                    Herramientas.mostrarMensajes("Bug encontrado: \n" + "\n" + bugs[centro].GetDetalle(), "Búsqueda por ID", 1);
+                    return; // Exit the method once the bug is found
                 }
             }
-            if (encontrado) {
-                Herramientas.mostrarMensajes(bugEncontrado.toString(), "Bugs encontrados", 1);
-            }
-            else{
-                Herramientas.mostrarMensajes("No se ha encontrado el bug con el titulo: " + nombreBug, "Error al buscar", 0);
-            }
+            Herramientas.mostrarMensajes("Bug no encontrado", "Búsqueda por ID", 0);
         }
     }
+
+    // buscar bugs por título
+    public static void buscarBugPorTitulo() {
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
+                    "Error", 0);
+        } else {
+
+        }
+    }
+
+    // buscar bugs por estado
+    public static void buscarBugPorEstado() {
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
+                    "Error", 0);
+        } else {
+
+        }
+    }
+
+    // buscar bugs por severidad
+    public static void buscarBugPorSeveridad() {
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
+                    "Error", 0);
+        } else {
+
+        }
+    }
+    // #endregion
+
     // ordenar bugs por prioridad o fecha de creacion
     // modificar bug, titulo, descripcion, prioridad o estado, solicitar ID del bug
     // a modificar
