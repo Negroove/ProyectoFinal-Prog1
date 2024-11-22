@@ -3,7 +3,6 @@ package view;
 import javax.swing.JOptionPane;
 
 import service.BugTracker;
-import model.Bug;
 
 // Clase Principal
 public class Main {
@@ -12,7 +11,8 @@ public class Main {
         boolean continuar = true;
 
         while (continuar) {
-            String[] opciones = {"Crear Bug", "Listar Bug", "Modificar Bug", "Eliminar Bug", "Buscar Bug", "Informes", "Salir"};
+            String[] opciones = { "Crear Bug", "Listar Bug", "Modificar Bug", "Eliminar Bug", "Buscar Bug", "Informes",
+                    "Salir" };
             int selection = JOptionPane.showOptionDialog(null, "¿Qué desea hacer?",
                     "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones,
                     opciones[0]);
@@ -30,8 +30,11 @@ public class Main {
                 case 3:
                     break;
                 case 4:
+                BugTracker.buscarBugsPorTitulo();
                     break;
                 case 5:
+                    break;
+                case 6:
                     break;
 
             }
