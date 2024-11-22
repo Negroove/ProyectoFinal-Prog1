@@ -36,7 +36,7 @@ public class Main {
                     while (seguir) {
                         String[] opcionesBusqueda = { "Búsqueda por ID", "Búsqueda por título", "Búsqueda por estado",
                                 "Búsqueda por severidad",
-                                "Salir" };
+                                "Menú principal" };
                         int selectionBusqueda = JOptionPane.showOptionDialog(null, "Qué tipo de búsqueda desea usar?",
                                 "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                                 opcionesBusqueda,
