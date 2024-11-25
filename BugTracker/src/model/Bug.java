@@ -2,8 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import javax.swing.JOptionPane;
+
 
 import utils.Herramientas;
 
@@ -45,10 +44,10 @@ public class Bug extends Incidence {
 
     // #endregion
 
-    public Bug(int numeroId, String titulo, String descripcion, Estado estado, Prioridad prioridad,
+    public Bug(int numeroId, String nombre, String descripcion, Estado estado, Prioridad prioridad,
             LocalDate fechaCreacion,
             LocalDate fechaFinalizacion, Severidad severidad, String moduloAfectado) {
-        super(numeroId, titulo, descripcion, estado, prioridad, fechaCreacion, fechaFinalizacion);
+        super(numeroId, nombre, descripcion, estado, prioridad, fechaCreacion, fechaFinalizacion);
         this.severidad = severidad;
         this.moduloAfectado = moduloAfectado;
         cantidadBug++;
@@ -59,8 +58,8 @@ public class Bug extends Incidence {
     }
 
     @Override
-    public String GetDetalle() {
-        return "Bug ID: " + getNumeroId() + "\n" + "Titulo: " + getTitulo() + "\n" + "Descripción: " + getDescripcion()
+    public String getDetalle() {
+        return "Bug ID: " + getNumeroId() + "\n" + "nombre: " + getNombre() + "\n" + "Descripción: " + getDescripcion()
                 + "\n" + "Estado: " + getEstado() + "\n" + "Prioridad: " + getPrioridad() + "\n" + "Fecha Creación: "
                 + getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n"
                 + "Fecha Finalización: pendiente"
@@ -70,7 +69,7 @@ public class Bug extends Incidence {
 
     @Override
     public void cargarDatos() {
-        setTitulo(Herramientas.solicitarTexto("Ingrese el titulo del bug: "));
+        setNombre(Herramientas.solicitarTexto("Ingrese el nombre del responsable: "));
         setSeveridad(Herramientas.mostrarOpcionesConEnum(
                 "Seleccione la severidad del bug",
                 Bug.Severidad.class));

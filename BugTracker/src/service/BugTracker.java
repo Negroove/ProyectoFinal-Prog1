@@ -33,7 +33,7 @@ public class BugTracker {
                     "Error", 0);
         } else {
             for (int i = 0; i < cantidadBugs; i++) {
-                lista.append(bugs[i].GetDetalle()).append("\n");
+                lista.append(bugs[i].getDetalle()).append("\n");
             }
             JOptionPane.showMessageDialog(null, lista);
         }
@@ -41,56 +41,58 @@ public class BugTracker {
 
     // #region Métodos buscadores
     // buscar bugs por ID
-    public static void buscarBugPorID() {
+    public static Bug buscarBugPorID() {
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
                     "Error", 0);
-        } else {
-            int iDingresado = Herramientas.solicitarEntero("Ingresá el ID (Número entero)");
-            int inicio = 0;
-            int fin = cantidadBugs - 1; // Adjust to the number of registered bugs
-
-            while (inicio <= fin) {
-                int centro = (inicio + fin) / 2;
-
-                if (iDingresado < bugs[centro].getNumeroId()) {
-                    fin = centro - 1;
-                } else if (iDingresado > bugs[centro].getNumeroId()) {
-                    inicio = centro + 1;
-                } else {
-                    Herramientas.mostrarMensajes("Bug encontrado: \n" + "\n" + bugs[centro].GetDetalle(),
-                            "Búsqueda por ID", 1);
-                    return; // Exit the method once the bug is found
-                }
-            }
-            Herramientas.mostrarMensajes("Bug no encontrado", "Búsqueda por ID", 0);
+            return null;
         }
+        int iDingresado = Herramientas.solicitarEntero("Ingresá el ID (Número entero)");
+        int inicio = 0;
+        int fin = cantidadBugs - 1;
+
+        while (inicio <= fin) {
+            int centro = (inicio + fin) / 2;
+
+            if (iDingresado < bugs[centro].getNumeroId()) {
+                fin = centro - 1;
+            } else if (iDingresado > bugs[centro].getNumeroId()) {
+                inicio = centro + 1;
+            } else {
+                Herramientas.mostrarMensajes("Bug encontrado: \n" + "\n" + bugs[centro].getDetalle(),
+                        "Búsqueda por ID", 1);
+                return bugs[centro];
+            }
+        }
+        Herramientas.mostrarMensajes("Bug no encontrado", "Búsqueda por ID", 0);
+        return null;
     }
 
     // buscar bugs por título
-    public static void buscarBugPorTitulo() {
-        boolean encontrado = false;
+    public static void buscarBugPorNombre() {
         if (cantidadBugs == 0) {
-            Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
-                    "Error", 0);
-        } else {
-            String tituloBuscado = Herramientas.solicitarTexto("Ingresá el título del bug que buscas");
-            StringBuilder titulosEncontrados = new StringBuilder("Coincidencias encontradas:\n" + "\n");
-            for (int i = 0; i < cantidadBugs; i++) {
-                if (bugs[i].getTitulo().contains(tituloBuscado.toLowerCase())) {
-                    titulosEncontrados.append(bugs[i].GetDetalle()).append("\n");
-                    encontrado = true;
-                }
-            }
-            if (encontrado) {
-                Herramientas.mostrarMensajes(titulosEncontrados.toString(), "Búsqueda por título", 1);
-            } else {
-                Herramientas.mostrarMensajes(
-                        "No se ha encontrado ninguna coincidencia de título con la palabra: " + tituloBuscado,
-                        "Búsqueda por título", 1);
+            Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
+            return;
+        }
+    
+        String nombreBuscado = Herramientas.solicitarTexto("Ingresá el nombre del bug que buscas").toLowerCase();
+        StringBuilder nombresEncontrados = new StringBuilder("Coincidencias encontradas:\n");
+    
+        boolean encontrado = false;
+        for (int i = 0; i < cantidadBugs; i++) {
+            if (bugs[i].getNombre().toLowerCase().contains(nombreBuscado)) {
+                nombresEncontrados.append(bugs[i].getDetalle()).append("\n");
+                encontrado = true;
             }
         }
+    
+        if (encontrado) {
+            Herramientas.mostrarMensajes(nombresEncontrados.toString(), "Búsqueda por título", 1);
+        } else {
+            Herramientas.mostrarMensajes("No se ha encontrado ninguna coincidencia con: " + nombreBuscado, "Búsqueda por título", 0);
+        }
     }
+    
 
     // buscar bugs por estado
     public static void buscarBugPorEstado() {
@@ -105,7 +107,7 @@ public class BugTracker {
                     Bug.Estado.class);
             for (int i = 0; i < cantidadBugs; i++) {
                 if (bugs[i].getEstado() == estadoBuscado) {
-                    estadosEncontrados.append(bugs[i].GetDetalle()).append("\n");
+                    estadosEncontrados.append(bugs[i].getDetalle()).append("\n");
                     encontrado = true;
                 }
             }
@@ -132,7 +134,7 @@ public class BugTracker {
                     Bug.Severidad.class);
             for (int i = 0; i < cantidadBugs; i++) {
                 if (bugs[i].getSeveridad() == severidadBuscada) {
-                    severidadEncontrados.append(bugs[i].GetDetalle()).append("\n");
+                    severidadEncontrados.append(bugs[i].getDetalle()).append("\n");
                     encontrado = true;
                 }
             }
@@ -147,10 +149,89 @@ public class BugTracker {
     }
     // #endregion
 
-    // ordenar bugs por prioridad o fecha de creacion
-    // modificar bug, titulo, descripcion, prioridad o estado, solicitar ID del bug
+    // #region Métodos Ordenadores
+    // Listar bugs ordenados por fecha de creacion
+    public static void listarBugsPorFechaAscendiente() {
+        StringBuilder sb = new StringBuilder("Bugs ordenados por fecha: \n");
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
+            return;
+        }
+
+        // Bubble sort basado en fecha de creación
+        for (int i = 0; i < cantidadBugs - 1; i++) {
+            for (int j = 0; j < cantidadBugs - 1 - i; j++) {
+                if (bugs[j].getFechaCreacion().isAfter(bugs[j + 1].getFechaCreacion())) {
+                    Bug temp = bugs[j];
+                    bugs[j] = bugs[j + 1];
+                    bugs[j + 1] = temp;
+                }
+            }
+        }
+
+        // Construir la lista de bugs ordenados
+        for (int i = 0; i < cantidadBugs; i++) {
+            sb.append(bugs[i].getDetalle()).append("\n");
+        }
+
+        Herramientas.mostrarMensajes(sb.toString(), "Bugs ordenados por fecha", 1);
+    }
+
+    public static void listarBugsPorId() {
+        StringBuilder sb = new StringBuilder("Bugs ordenados por Id: \n");
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
+            return;
+        }
+
+        for (int i = 0; i < cantidadBugs - 1; i++) {
+            for (int j = 0; j < cantidadBugs - 1 - i; j++) {
+                if (bugs[j].getNumeroId() > bugs[j + 1].getNumeroId()) {
+                    Bug temp = bugs[j];
+                    bugs[j] = bugs[j + 1];
+                    bugs[j + 1] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < cantidadBugs; i++) {
+            sb.append(bugs[i].getDetalle()).append("\n");
+        }
+
+        Herramientas.mostrarMensajes(sb.toString(), "Bugs ordenados por Id", 1);
+    }
+    // #endregion
+    // modificar bug, nombre, descripcion, prioridad o estado, solicitar ID del bug
     // a modificar
-    // eliminar bug, solicitar ID del bug a eliminar
+
+    // eliminar bug
+    public static void eliminarBug() {
+        Bug eliminar = buscarBugPorID();
+        if (eliminar == null) {
+            Herramientas.mostrarMensajes("No hay nada para eliminar", "Error al eliminar", 0);
+            return;
+        }
+    
+        // encontramos el indice que queremos eliminar 
+        int index = 0;
+        for (int i = 0; i < cantidadBugs; i++) {
+            if (bugs[i] == eliminar) {
+                index = i;
+                break;
+            }
+        }
+    
+        if (index != -1) {
+            // movemos los espacios hacia la izquierda ya que si lo dejo en null me queda un espacio vacio 
+            for (int i = index; i < cantidadBugs - 1; i++) {
+                bugs[i] = bugs[i + 1];
+            }
+            bugs[cantidadBugs - 1] = null; // Borrar el último elemento
+            cantidadBugs--;
+    
+            Herramientas.mostrarMensajes("Bug eliminado con éxito.", "Eliminación de Bug", 1);
+        }
+    }
     // generar informe de bugs, mostrar cantidad de bugs, cantidad de bugs por
     // estado, cantidad de bugs por prioridad
 }
