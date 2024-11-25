@@ -11,7 +11,8 @@ public class Main {
         boolean continuar = true;
 
         while (continuar) {
-            String[] opciones = { "Crear Bug", "Lista de Bugs", "Modificar Bug", "Eliminar Bug", "Buscar Bug",
+            boolean seguir = true;
+            String[] opciones = { "Crear Bug", "Listar bugs", "Modificar Bug", "Eliminar Bug", "Buscar Bug",
                     "Informes",
                     "Salir" };
             int selection = JOptionPane.showOptionDialog(null, "¿Qué desea hacer?",
@@ -24,14 +25,37 @@ public class Main {
                     BugTracker.crearBug();
                     break;
                 case 1:
-                    BugTracker.listarBugs();
+                    // Listamos bugs
+                    seguir = true;
+                    while (seguir) {
+                        String[] opcionesListar = { "Listar ordenados por fecha de creacion", "Listar ordenados por Id",
+                                "Salir" };
+                        int selectionListar = JOptionPane.showOptionDialog(null, "Qué tipo de búsqueda desea usar?",
+                                "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                opcionesListar,
+                                opcionesListar[0]);
+                        switch (selectionListar) {
+                            case 0:
+                                BugTracker.listarBugsPorFechaAscendiente();
+                                break;
+                            case 1:
+                                BugTracker.listarBugsPorId();
+                            case 2:
+                                seguir = false;
+                                break;
+                            default:
+                                seguir = false;
+                                break;
+                        }
+                    }
                     break;
                 case 2:
                     break;
                 case 3:
+                    BugTracker.eliminarBug();
                     break;
                 case 4:
-                    boolean seguir = true;
+                    seguir = true;
                     while (seguir) {
                         String[] opcionesBusqueda = { "Búsqueda por ID", "Búsqueda por título", "Búsqueda por estado",
                                 "Búsqueda por severidad",
@@ -46,7 +70,7 @@ public class Main {
                                 BugTracker.buscarBugPorID();
                                 break;
                             case 1:
-                                BugTracker.buscarBugPorTitulo();
+                                BugTracker.buscarBugPorNombre();
                                 break;
                             case 2:
                                 BugTracker.buscarBugPorEstado();

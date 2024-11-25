@@ -82,8 +82,8 @@ public class Herramientas {
     }
 
     // Mostrar mensajes
-    public static void mostrarMensajes(String cMensaje, String cTitulo, int nIcono) {
-        JOptionPane.showMessageDialog(null, cMensaje, cTitulo, nIcono);
+    public static void mostrarMensajes(String cMensaje, String cnombre, int nIcono) {
+        JOptionPane.showMessageDialog(null, cMensaje, cnombre, nIcono);
 
     }
 

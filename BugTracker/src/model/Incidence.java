@@ -15,7 +15,7 @@ public abstract class Incidence {
     }
 
     private int numeroId;
-    private String titulo;
+    private String nombre;
     private String descripcion;
     private Estado estado;
     private Prioridad prioridad;
@@ -32,12 +32,12 @@ public abstract class Incidence {
         this.numeroId = cantidadIncidencias;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -82,11 +82,11 @@ public abstract class Incidence {
 
     // #endregion
 
-    public Incidence(int numeroId, String titulo, String descripcion, Estado estado, Prioridad prioridad,
+    public Incidence(int numeroId, String nombre, String descripcion, Estado estado, Prioridad prioridad,
             LocalDate fechaCreacion,
             LocalDate fechaFinalizacion) {
         this.numeroId = numeroId;
-        this.titulo = titulo;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
         this.prioridad = prioridad;
@@ -100,7 +100,7 @@ public abstract class Incidence {
         cantidadIncidencias++;
     }
 
-    public abstract String GetDetalle();
+    public abstract String getDetalle();
 
     // Cargar incidencia con sus datos
     public abstract void cargarDatos();
