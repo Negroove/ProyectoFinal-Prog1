@@ -87,6 +87,7 @@ public class Herramientas {
 
     }
 
+    // se declara parametro generico T para que solamente pueda ser usados en Enums
     public static <T extends Enum<T>> T mostrarOpcionesConEnum(String mensaje, Class<T> opcionesEnum) {
 
         // Convertir los valores del enum en un arreglo de strings
@@ -131,9 +132,9 @@ public class Herramientas {
                     System.exit(0);
                 }
                 fecha = LocalDate.parse(entrada, formatoFecha);
-                esValido = true; // Fecha válida, salir del bucle
+                esValido = true; //  fecha valida, sale del bucle 
             } catch (DateTimeParseException e) {
-                JOptionPane.showMessageDialog(null, "Fecha inválida. Asegúrese de usar el formato dd/MM/yyyy.", "Error",
+                JOptionPane.showMessageDialog(null, "Fecha inválida. Asegúrese de usar el formato dd/mm/yyyy.", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
         }

@@ -40,29 +40,40 @@ public class Bug extends Incidence {
         Bug.cantidadBug = cantidadBug;
     }
 
+    public Bug(){
+
+    }
+
     // #endregion
 
-    public Bug(int numeroId, String nombre, String descripcion, Estado estado, Prioridad prioridad,
-            LocalDate fechaCreacion,
-            LocalDate fechaFinalizacion, Severidad severidad, String moduloAfectado) {
-        super(numeroId, nombre, descripcion, estado, prioridad, fechaCreacion, fechaFinalizacion);
+    public Bug(String nombre, String descripcion, Estado estado, Prioridad prioridad, LocalDate fechaCreacion,
+            Severidad severidad, String moduloAfectado) {
+        super(nombre, descripcion, estado, prioridad, fechaCreacion);
         this.severidad = severidad;
         this.moduloAfectado = moduloAfectado;
         cantidadBug++;
     }
 
-    public Bug() {
-        cantidadBug++;
-    }
+    
 
     @Override
     public String getDetalle() {
-        return "Bug ID: " + getNumeroId() + "\n" + "Nombre: " + getNombre() + "\n" + "Descripción: " + getDescripcion()
-                + "\n" + "Estado: " + getEstado() + "\n" + "Prioridad: " + getPrioridad() + "\n" + "Fecha Creación: "
-                + getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n"
-                + "Fecha Finalización: pendiente"
-                /* + getFechaFinalizacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) */ + "\n" + "Severidad: "
-                + getSeveridad() + "\n" + "Módulo Afectado: " + getModuloAfectado() + "\n";
+        StringBuilder detalle = new StringBuilder();
+        detalle.append("Bug ID: ").append(getNumeroId()).append("\n")
+                .append("Nombre: ").append(getNombre()).append("\n")
+                .append("Descripción: ").append(getDescripcion()).append("\n")
+                .append("Estado: ").append(getEstado()).append("\n")
+                .append("Prioridad: ").append(getPrioridad()).append("\n")
+                .append("Fecha Creación: ").append(getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                .append("\n")
+                .append("Fecha Finalización: ")
+                .append(getFechaFinalizacion() == null ? "Pendiente"
+                        : getFechaFinalizacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+                .append("\n")
+                .append("Severidad: ").append(getSeveridad()).append("\n")
+                .append("Módulo Afectado: ").append(getModuloAfectado()).append("\n");
+
+        return detalle.toString();
     }
 
     @Override
@@ -82,8 +93,7 @@ public class Bug extends Incidence {
         setDescripcion(Herramientas.solicitarTexto(mensaje.toString() + "\nIngresá la descripción del bug:"));
         mensaje.append("Descripción: ").append(getDescripcion()).append("\n");
 
-        setEstado(Herramientas.mostrarOpcionesConEnum(mensaje.toString() + "\nSeleccioná el estado del bug:",
-                Bug.Estado.class));
+        setEstado(Bug.Estado.ABIERTA);
         mensaje.append("Estado: ").append(getEstado()).append("\n");
 
         setFechaCreacion(
@@ -95,23 +105,4 @@ public class Bug extends Incidence {
                 Bug.Prioridad.class));
         mensaje.append("Prioridad: ").append(getPrioridad()).append("\n");
     }
-
-    @Override
-    // Modificar incidencia por ID
-    public void modificarDatos(int numeroId) {
-
-    }
-
-    @Override
-    // Eliminar incidencia POR ID
-    public void eliminarDatos(int numeroId) {
-
-    }
-
-    @Override
-    // Mostrar datos de incidencia por ID
-    public void mostrarDatos(int numeroId) {
-
-    };
-
 }

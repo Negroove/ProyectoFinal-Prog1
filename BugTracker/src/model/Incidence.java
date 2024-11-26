@@ -29,7 +29,7 @@ public abstract class Incidence {
     }
 
     public void setId() {
-        this.numeroId = cantidadIncidencias;
+        this.numeroId = ++cantidadIncidencias;
     }
 
     public String getNombre() {
@@ -82,22 +82,18 @@ public abstract class Incidence {
 
     // #endregion
 
-    public Incidence(int numeroId, String nombre, String descripcion, Estado estado, Prioridad prioridad,
-            LocalDate fechaCreacion,
-            LocalDate fechaFinalizacion) {
-        this.numeroId = numeroId;
+    public Incidence(String nombre, String descripcion, Estado estado, Prioridad prioridad, LocalDate fechaCreacion) {
+        setId();
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
         this.prioridad = prioridad;
         this.fechaCreacion = fechaCreacion;
-        this.fechaFinalizacion = fechaFinalizacion;
-        cantidadIncidencias++;
-        setId();
+        this.fechaFinalizacion = null; // No definida inicialmente
     }
 
-    public Incidence() {
-        cantidadIncidencias++;
+    public Incidence(){
+        
     }
 
     public abstract String getDetalle();
@@ -105,13 +101,6 @@ public abstract class Incidence {
     // Cargar incidencia con sus datos
     public abstract void cargarDatos();
 
-    // Modificar incidencia por ID
-    public abstract void modificarDatos(int numeroId);
 
-    // Eliminar incidencia POR ID
-    public abstract void eliminarDatos(int numeroId);
-
-    // Mostrar datos de incidencia por ID
-    public abstract void mostrarDatos(int numeroId);
 
 }
