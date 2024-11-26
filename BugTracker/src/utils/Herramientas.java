@@ -90,7 +90,7 @@ public class Herramientas {
     public static <T extends Enum<T>> T mostrarOpcionesConEnum(String mensaje, Class<T> opcionesEnum) {
 
         // Convertir los valores del enum en un arreglo de strings
-        
+
         T[] valoresEnum = opcionesEnum.getEnumConstants();
         String[] opciones = new String[valoresEnum.length];
 
@@ -107,8 +107,7 @@ public class Herramientas {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 opciones,
-                opciones[0]
-        );
+                opciones[0]);
 
         // Si el usuario no selecciona nada, devolvemos null
         if (seleccion == JOptionPane.CLOSED_OPTION) {
@@ -119,25 +118,25 @@ public class Herramientas {
         return valoresEnum[seleccion];
     }
 
-    public static LocalDate solicitarFecha() {
-    DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    LocalDate fecha = null;
-    boolean esValido = false;
+    public static LocalDate solicitarFecha(String mensaje) {
+        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate fecha = null;
+        boolean esValido = false;
 
-    while (!esValido) {
-        try {
-            String entrada =  Herramientas.solicitarTexto("Ingrese la fecha en formato dd/MM/yyyy");
-            if (entrada == null || entrada.trim().isEmpty()) {
-                Herramientas.mostrarMensajes("Operacion Cancelada", "Saliendo", 1);
-                System.exit(0);
+        while (!esValido) {
+            try {
+                String entrada = Herramientas.solicitarTexto(mensaje);
+                if (entrada == null || entrada.trim().isEmpty()) {
+                    Herramientas.mostrarMensajes("Operacion Cancelada", "Saliendo", 1);
+                    System.exit(0);
+                }
+                fecha = LocalDate.parse(entrada, formatoFecha);
+                esValido = true; // Fecha válida, salir del bucle
+            } catch (DateTimeParseException e) {
+                JOptionPane.showMessageDialog(null, "Fecha inválida. Asegúrese de usar el formato dd/MM/yyyy.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
-            fecha = LocalDate.parse(entrada, formatoFecha);
-            esValido = true; // Fecha válida, salir del bucle
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(null, "Fecha inválida. Asegúrese de usar el formato dd/MM/yyyy.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
         }
+        return fecha;
     }
-    return fecha;
-}
 }
