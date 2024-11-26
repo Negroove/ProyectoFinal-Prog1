@@ -1,5 +1,7 @@
 package service;
 
+import java.time.LocalDate;
+
 import javax.swing.JOptionPane;
 
 import model.Bug;
@@ -268,6 +270,9 @@ public class BugTracker {
                                     "Seleccione el nuevo estado del bug:",
                                     Bug.Estado.class);
                             bugs[centro].setEstado(nuevoEstado);
+                            if (nuevoEstado == Bug.Estado.CERRADA) {
+                                bugs[centro].setFechaFinalizacion(LocalDate.now());
+                            }
                             Herramientas.mostrarMensajes("Estado modificado con éxito.\n\n" + bugs[centro].getDetalle(),
                                     "Modificación de Bug", 1);
                             return bugs[centro];
