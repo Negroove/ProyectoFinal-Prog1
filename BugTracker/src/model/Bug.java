@@ -59,7 +59,7 @@ public class Bug extends Incidence {
 
     @Override
     public String getDetalle() {
-        return "Bug ID: " + getNumeroId() + "\n" + "nombre: " + getNombre() + "\n" + "Descripción: " + getDescripcion()
+        return "Bug ID: " + getNumeroId() + "\n" + "Nombre: " + getNombre() + "\n" + "Descripción: " + getDescripcion()
                 + "\n" + "Estado: " + getEstado() + "\n" + "Prioridad: " + getPrioridad() + "\n" + "Fecha Creación: "
                 + getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "\n"
                 + "Fecha Finalización: pendiente"

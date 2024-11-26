@@ -74,10 +74,10 @@ public class BugTracker {
             Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
             return;
         }
-    
+
         String nombreBuscado = Herramientas.solicitarTexto("Ingresá el nombre del bug que buscas").toLowerCase();
         StringBuilder nombresEncontrados = new StringBuilder("Coincidencias encontradas:\n");
-    
+
         boolean encontrado = false;
         for (int i = 0; i < cantidadBugs; i++) {
             if (bugs[i].getNombre().toLowerCase().contains(nombreBuscado)) {
@@ -85,14 +85,14 @@ public class BugTracker {
                 encontrado = true;
             }
         }
-    
+
         if (encontrado) {
             Herramientas.mostrarMensajes(nombresEncontrados.toString(), "Búsqueda por título", 1);
         } else {
-            Herramientas.mostrarMensajes("No se ha encontrado ninguna coincidencia con: " + nombreBuscado, "Búsqueda por título", 0);
+            Herramientas.mostrarMensajes("No se ha encontrado ninguna coincidencia con: " + nombreBuscado,
+                    "Búsqueda por título", 0);
         }
     }
-    
 
     // buscar bugs por estado
     public static void buscarBugPorEstado() {
@@ -178,7 +178,7 @@ public class BugTracker {
     }
 
     public static void listarBugsPorId() {
-        StringBuilder sb = new StringBuilder("Bugs ordenados por Id: \n");
+        StringBuilder sb = new StringBuilder("Bugs ordenados por ID: \n");
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
             return;
@@ -198,7 +198,7 @@ public class BugTracker {
             sb.append(bugs[i].getDetalle()).append("\n");
         }
 
-        Herramientas.mostrarMensajes(sb.toString(), "Bugs ordenados por Id", 1);
+        Herramientas.mostrarMensajes(sb.toString(), "Bugs ordenados por ID", 1);
     }
     // #endregion
     // modificar bug, nombre, descripcion, prioridad o estado, solicitar ID del bug
@@ -208,29 +208,34 @@ public class BugTracker {
     public static void eliminarBug() {
         Bug eliminar = buscarBugPorID();
         if (eliminar == null) {
-            Herramientas.mostrarMensajes("No hay nada para eliminar", "Error al eliminar", 0);
+            // buscarBugPorID() ya proporciona advertencia en caso de no existir registros.
             return;
         }
-    
-        // encontramos el indice que queremos eliminar 
-        int index = 0;
+
+        // encontramos el indice que queremos eliminar
+        int index = -1;
         for (int i = 0; i < cantidadBugs; i++) {
             if (bugs[i] == eliminar) {
                 index = i;
                 break;
             }
         }
-    
-        if (index != -1) {
-            // movemos los espacios hacia la izquierda ya que si lo dejo en null me queda un espacio vacio 
-            for (int i = index; i < cantidadBugs - 1; i++) {
-                bugs[i] = bugs[i + 1];
-            }
-            bugs[cantidadBugs - 1] = null; // Borrar el último elemento
-            cantidadBugs--;
-    
-            Herramientas.mostrarMensajes("Bug eliminado con éxito.", "Eliminación de Bug", 1);
+
+        // validamos si el bug fué encontrado
+        if (index == -1) {
+            Herramientas.mostrarMensajes("Bug no encontrado.", "Error al eliminar", 0);
+            return;
         }
+
+        // movemos los espacios hacia la izquierda ya que si lo dejo en null me queda un
+        // espacio vacio
+        for (int i = index; i < cantidadBugs - 1; i++) {
+            bugs[i] = bugs[i + 1];
+        }
+        bugs[cantidadBugs - 1] = null; // Borrar el último elemento
+        cantidadBugs--;
+
+        Herramientas.mostrarMensajes("Bug eliminado con éxito.", "Eliminación de Bug", 1);
     }
     // generar informe de bugs, mostrar cantidad de bugs, cantidad de bugs por
     // estado, cantidad de bugs por prioridad

@@ -28,9 +28,9 @@ public class Main {
                     // Listamos bugs
                     seguir = true;
                     while (seguir) {
-                        String[] opcionesListar = { "Listar ordenados por fecha de creacion", "Listar ordenados por Id",
-                                "Salir" };
-                        int selectionListar = JOptionPane.showOptionDialog(null, "Qué tipo de búsqueda desea usar?",
+                        String[] opcionesListar = { "Listar ordenados por fecha de creación", "Listar ordenados por ID",
+                                "Menú Principal" };
+                        int selectionListar = JOptionPane.showOptionDialog(null, "¿Como desea listar los registros?",
                                 "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                                 opcionesListar,
                                 opcionesListar[0]);
