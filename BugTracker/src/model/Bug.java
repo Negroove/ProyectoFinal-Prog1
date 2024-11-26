@@ -2,8 +2,6 @@ package model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
-
 import utils.Herramientas;
 
 // Modelo Bug hereda de Incidencia
@@ -69,17 +67,33 @@ public class Bug extends Incidence {
 
     @Override
     public void cargarDatos() {
-        setNombre(Herramientas.solicitarTexto("Ingrese el nombre del responsable: "));
-        setSeveridad(Herramientas.mostrarOpcionesConEnum(
-                "Seleccione la severidad del bug",
-                Bug.Severidad.class));
+        StringBuilder mensaje = new StringBuilder("Ingresá los datos del bug:\n\n");
 
-        setModuloAfectado(Herramientas.solicitarTexto("Ingrese el módulo afectado: "));
-        setDescripcion(Herramientas.solicitarTexto("Ingrese la descripción del bug: "));
-        setEstado(Herramientas.mostrarOpcionesConEnum("Seleccione Estado",
+        setNombre(Herramientas.solicitarTexto(mensaje.toString() + "\nNombre del responsable:"));
+        mensaje.append("Nombre del responsable: ").append(getNombre()).append("\n");
+
+        setSeveridad(Herramientas.mostrarOpcionesConEnum(mensaje.toString() + "\nSeleccione la severidad del bug:",
+                Bug.Severidad.class));
+        mensaje.append("Severidad: ").append(getSeveridad()).append("\n");
+
+        setModuloAfectado(Herramientas.solicitarTexto(mensaje.toString() + "\nIngresá el módulo afectado:"));
+        mensaje.append("Módulo afectado: ").append(getModuloAfectado()).append("\n");
+
+        setDescripcion(Herramientas.solicitarTexto(mensaje.toString() + "\nIngresá la descripción del bug:"));
+        mensaje.append("Descripción: ").append(getDescripcion()).append("\n");
+
+        setEstado(Herramientas.mostrarOpcionesConEnum(mensaje.toString() + "\nSeleccioná el estado del bug:",
                 Bug.Estado.class));
-        setFechaCreacion(Herramientas.solicitarFecha());
-        setPriodidad(Herramientas.mostrarOpcionesConEnum("Seleccione la priodad", Bug.Prioridad.class));
+        mensaje.append("Estado: ").append(getEstado()).append("\n");
+
+        setFechaCreacion(
+                Herramientas.solicitarFecha(mensaje.toString() + "\nIngresá la fecha de creación (dd/MM/yyyy):"));
+        mensaje.append("Fecha de creación: ")
+                .append(getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
+
+        setPriodidad(Herramientas.mostrarOpcionesConEnum(mensaje.toString() + "\nSeleccioná la prioridad del bug:",
+                Bug.Prioridad.class));
+        mensaje.append("Prioridad: ").append(getPrioridad()).append("\n");
     }
 
     @Override
