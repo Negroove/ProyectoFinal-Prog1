@@ -91,7 +91,7 @@ public class Bug extends Incidence {
         mensaje.append("Fecha de creación: ")
                 .append(getFechaCreacion().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).append("\n");
 
-        setPriodidad(Herramientas.mostrarOpcionesConEnum(mensaje.toString() + "\nSeleccioná la prioridad del bug:",
+        setPrioridad(Herramientas.mostrarOpcionesConEnum(mensaje.toString() + "\nSeleccioná la prioridad del bug:",
                 Bug.Prioridad.class));
         mensaje.append("Prioridad: ").append(getPrioridad()).append("\n");
     }

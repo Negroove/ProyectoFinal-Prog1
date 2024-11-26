@@ -60,7 +60,7 @@ public abstract class Incidence {
         return prioridad;
     }
 
-    public void setPriodidad(Prioridad prioridad) {
+    public void setPrioridad(Prioridad prioridad) {
         this.prioridad = prioridad;
     }
 

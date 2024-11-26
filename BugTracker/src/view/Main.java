@@ -50,6 +50,7 @@ public class Main {
                     }
                     break;
                 case 2:
+                    BugTracker.modificarBug();
                     break;
                 case 3:
                     BugTracker.eliminarBug();

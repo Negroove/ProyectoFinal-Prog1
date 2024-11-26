@@ -201,8 +201,90 @@ public class BugTracker {
         Herramientas.mostrarMensajes(sb.toString(), "Bugs ordenados por ID", 1);
     }
     // #endregion
+
     // modificar bug, nombre, descripcion, prioridad o estado, solicitar ID del bug
     // a modificar
+
+    public static Bug modificarBug() {
+        if (cantidadBugs == 0) {
+            Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder modificar luego.",
+                    "Error", 0);
+            return null;
+        }
+        int iDingresado = Herramientas.solicitarEntero("Ingresá el ID del bug que desea modificar (Número entero)");
+        int inicio = 0;
+        int fin = cantidadBugs - 1;
+        boolean seguir = true;
+
+        while (inicio <= fin) {
+            int centro = (inicio + fin) / 2;
+
+            if (iDingresado < bugs[centro].getNumeroId()) {
+                fin = centro - 1;
+            } else if (iDingresado > bugs[centro].getNumeroId()) {
+                inicio = centro + 1;
+            } else {
+                /*
+                 * Herramientas.mostrarMensajes("Bug encontrado: \n" + "\n" +
+                 * bugs[centro].getDetalle(),
+                 * "Búsqueda por ID", 1);
+                 */
+                // Modificar bug
+                while (seguir) {
+                    String[] opcionesModificar = { "Modificar nombre", "Modificar descripción", "Modificar prioridad",
+                            "Modificar estado", "Menú principal" };
+                    int selectionModificar = JOptionPane.showOptionDialog(null,
+                            "¿Qué desea modificar?\n\n" + bugs[centro].getDetalle(),
+                            "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                            opcionesModificar,
+                            opcionesModificar[0]);
+                    switch (selectionModificar) {
+                        case 0:
+                            String nuevoNombre = Herramientas.solicitarTexto("Ingresá el nuevo nombre del bug");
+                            bugs[centro].setNombre(nuevoNombre);
+                            Herramientas.mostrarMensajes("Nombre modificado con éxito.\n\n" + bugs[centro].getDetalle(),
+                                    "Modificación de Bug", 1);
+                            return bugs[centro];
+
+                        case 1:
+                            String nuevaDescripcion = Herramientas
+                                    .solicitarTexto("Ingresá la nueva descripción del bug");
+                            bugs[centro].setDescripcion(nuevaDescripcion);
+                            Herramientas.mostrarMensajes(
+                                    "Descripción modificada con éxito.\n\n" + bugs[centro].getDetalle(),
+                                    "Modificación de Bug", 1);
+                            return bugs[centro];
+                        case 2:
+                            Bug.Prioridad nuevaPrioridad = Herramientas.mostrarOpcionesConEnum(
+                                    "Seleccione la nueva prioridad del bug:",
+                                    Bug.Prioridad.class);
+                            bugs[centro].setPrioridad(nuevaPrioridad);
+                            Herramientas.mostrarMensajes(
+                                    "Prioridad modificada con éxito.\n\n" + bugs[centro].getDetalle(),
+                                    "Modificación de Bug", 1);
+                            return bugs[centro];
+                        case 3:
+                            Bug.Estado nuevoEstado = Herramientas.mostrarOpcionesConEnum(
+                                    "Seleccione el nuevo estado del bug:",
+                                    Bug.Estado.class);
+                            bugs[centro].setEstado(nuevoEstado);
+                            Herramientas.mostrarMensajes("Estado modificado con éxito.\n\n" + bugs[centro].getDetalle(),
+                                    "Modificación de Bug", 1);
+                            return bugs[centro];
+                        case 4:
+                            seguir = false;
+                            break;
+                        default:
+                            seguir = false;
+                            break;
+                    }
+                }
+                return null;
+            }
+        }
+        Herramientas.mostrarMensajes("Bug no encontrado", "Búsqueda por ID", 0);
+        return null;
+    }
 
     // eliminar bug
     public static void eliminarBug() {
