@@ -67,11 +67,11 @@
 
 ## 📂 Estructura del Proyecto
 
-
 ### 📦 Paquetes
 1. **model**: Contiene las clases que representan las entidades principales del sistema.
 2. **service**: Implementa la lógica del negocio, como la gestión de bugs.
 3. **view**: Maneja la interacción con el usuario mediante menús y ventanas.
+4. **utils**: Donde se encuentran clases utiles para el desarrollo del sistema.
 
 ---
 
@@ -87,13 +87,4 @@ El sistema presenta un menú interactivo con las siguientes opciones:
 6. **Eliminar una Incidencia**.
 7. **Generar Informe Personalizado**.
 8. **Salir**.
-
----
-
-## 🚀 Cómo Ejecutar el Proyecto
-
-1. Clona este repositorio:
-   ```bash
-   git clone <URL_DEL_REPOSITORIO>
-
 
