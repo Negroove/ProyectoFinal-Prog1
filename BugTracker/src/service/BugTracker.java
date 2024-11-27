@@ -9,7 +9,7 @@ import model.Bug.Severidad;
 import model.Incidence.Estado;
 import utils.Herramientas;
 
-// Logica / Reglas de Negocio
+// Logica 
 
 public class BugTracker {
     public static Bug[] bugs = new Bug[100];
@@ -24,7 +24,6 @@ public class BugTracker {
         bugs[cantidadBugs] = bug;
         cantidadBugs++;
         return bug;
-
     }
 
     // listar bugs mostrando una lista general con los datos de cada uno
@@ -35,7 +34,7 @@ public class BugTracker {
                     "Error", 0);
         } else {
             for (int i = 0; i < cantidadBugs; i++) {
-                lista.append(bugs[i].getDetalle()).append("\n");
+                lista.append(bugs[i].getDetalle()).append("\n-------------------------\n");
             }
             JOptionPane.showMessageDialog(null, lista);
         }
@@ -83,7 +82,7 @@ public class BugTracker {
         boolean encontrado = false;
         for (int i = 0; i < cantidadBugs; i++) {
             if (bugs[i].getNombre().toLowerCase().contains(nombreBuscado)) {
-                nombresEncontrados.append(bugs[i].getDetalle()).append("\n");
+                nombresEncontrados.append(bugs[i].getDetalle()).append("\n-------------------------\n");
                 encontrado = true;
             }
         }
@@ -109,7 +108,7 @@ public class BugTracker {
                     Bug.Estado.class);
             for (int i = 0; i < cantidadBugs; i++) {
                 if (bugs[i].getEstado() == estadoBuscado) {
-                    estadosEncontrados.append(bugs[i].getDetalle()).append("\n");
+                    estadosEncontrados.append(bugs[i].getDetalle()).append("\n-------------------------\n");
                     encontrado = true;
                 }
             }
@@ -197,7 +196,7 @@ public class BugTracker {
         }
 
         for (int i = 0; i < cantidadBugs; i++) {
-            sb.append(bugs[i].getDetalle()).append("\n");
+            sb.append(bugs[i].getDetalle()).append("\n-------------------------\n");
         }
 
         Herramientas.mostrarMensajes(sb.toString(), "Bugs ordenados por ID", 1);
@@ -205,8 +204,6 @@ public class BugTracker {
     // #endregion
 
     // modificar bug, nombre, descripcion, prioridad o estado, solicitar ID del bug
-    // a modificar
-
     public static Bug modificarBug() {
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder modificar luego.",
@@ -226,12 +223,6 @@ public class BugTracker {
             } else if (iDingresado > bugs[centro].getNumeroId()) {
                 inicio = centro + 1;
             } else {
-                /*
-                 * Herramientas.mostrarMensajes("Bug encontrado: \n" + "\n" +
-                 * bugs[centro].getDetalle(),
-                 * "Búsqueda por ID", 1);
-                 */
-                // Modificar bug
                 while (seguir) {
                     String[] opcionesModificar = { "Modificar nombre", "Modificar descripción", "Modificar prioridad",
                             "Modificar estado", "Menú principal" };
@@ -326,4 +317,70 @@ public class BugTracker {
     }
     // generar informe de bugs, mostrar cantidad de bugs, cantidad de bugs por
     // estado, cantidad de bugs por prioridad
+
+    public static void generarInformePorNombre() {
+        StringBuilder informe = new StringBuilder("Informe por Responsable:\n\n");
+
+        // iteramos cada bug y calculamos el conteo
+        for (int i = 0; i < cantidadBugs; i++) {
+            String nombreActual = bugs[i].getNombre();
+            int conteo = 0;
+
+            // cuento cuantos bugs tienen el mismo nombre
+            for (int j = 0; j < cantidadBugs; j++) {
+                if (bugs[j].getNombre().equals(nombreActual)) {
+                    conteo++;
+                }
+            }
+
+            // verifico que no se incluya duplicado el nombre
+            if (!informe.toString().contains("Responsable: " + nombreActual)) {
+                informe.append("Responsable: ").append(nombreActual)
+                        .append(" - ").append(conteo).append(" bugs\n");
+            }
+        }
+
+        Herramientas.mostrarMensajes(informe.toString(), "Reporte de Bugs por nombre", 1);
+    }
+
+    public static void generarInformePorEstado() {
+
+        int[] conteoEstado = new int[Bug.Estado.values().length]; // creo contador de cantidad de estados
+
+        for (int i = 0; i < cantidadBugs; i++) {
+            Bug.Estado estado = bugs[i].getEstado(); // obtengo el estado del bug
+            conteoEstado[estado.ordinal()]++; // incremento el contador para ese estado
+        }
+
+        StringBuilder informe = new StringBuilder("Informe por Estado:\n\n");
+        // Usamos un bucle for clásico para iterar sobre los valores de Estado
+        for (int i = 0; i < Bug.Estado.values().length; i++) {
+            Bug.Estado estado = Bug.Estado.values()[i];
+            informe.append(estado.name()).append(": ").append(conteoEstado[i]).append(" bugs\n");
+        }
+        Herramientas.mostrarMensajes(informe.toString(), "Reporte de Bugs por estado", 1);
+
+    }
+
+    public static void generarInformePorSeveridad() {
+        int[] conteoSeveridad = new int[Bug.Severidad.values().length]; // creo contador de cantidad de severidades
+
+        // Contar por severidad
+        for (int i = 0; i < cantidadBugs; i++) {
+            conteoSeveridad[bugs[i].getSeveridad().ordinal()]++; // incremento el contador para esa severidad
+        }
+
+        // Generar informe directamente
+        StringBuilder informe = new StringBuilder("Informe por Severidad:\n\n");
+        // Usamos un bucle for clásico para iterar sobre los valores de Severidad
+        for (int i = 0; i < Bug.Severidad.values().length; i++) {
+            Bug.Severidad severidad = Bug.Severidad.values()[i];
+            informe.append(severidad.name())
+                    .append(": ")
+                    .append(conteoSeveridad[i])
+                    .append(" bugs\n");
+        }
+        Herramientas.mostrarMensajes(informe.toString(), "Reporte de Bugs por severidad", 1);
+
+    }
 }
