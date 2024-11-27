@@ -51,6 +51,7 @@
 
 ### 🔹 **Modificar Bug**
 - Actualizar los atributos de un bug, como:
+  - Nombre.
   - Estado.
   - Descripción.
   - Prioridad.
