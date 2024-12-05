@@ -30,39 +30,43 @@
 
 ### 🔹 **Registrar Bug**
 - Ingresar información clave como:
+  - Nombre del responsable del bug.
   - Descripción del bug.
-  - Estado: **Pendiente**, **Resuelto**, etc.
-  - Prioridad: **Alta**, **Media**, **Baja**.
+  - Severidad: **Crítica**, **Alta**, **Media**, **Baja**.
+  - Módulo afectado.
+  - Estado: Todos los bugs inician con estado ABIERTO.
   - Fecha de creación.
+  - Prioridad: **Alta**, **Media**, **Baja**.
 - Generar automáticamente un identificador único.
 
 ### 🔹 **Listar Bugs**
-- Mostrar una lista general de todos los bugs registrados con su información detallada.
+- Permitir listar por:
+  - **Fecha de creación**.
+  - **ID** del bug (Ascendente).
 
 ### 🔹 **Buscar Bugs**
 - Permitir búsquedas por:
   - **ID** del bug.
+  - **Nombre** Nombre del responsable.
   - **Estado** (Pendiente, Resuelto, etc.).
-
-### 🔹 **Ordenar Bugs**
-- Ordenar las incidencias según:
-  - **Prioridad** (Alta, Media, Baja).
-  - **Fecha de creación**.
+  - **Severidad** (Crítica, Alta, Media, Baja.).
 
 ### 🔹 **Modificar Bug**
 - Actualizar los atributos de un bug, como:
   - Nombre.
-  - Estado.
   - Descripción.
+  - Estado.
   - Prioridad.
 
 ### 🔹 **Eliminar Bug**
 - Eliminar bugs registrados a partir de su ID único.
 
 ### 🔹 **Generar Informes**
-- Crear reportes personalizados como:
-  - Listar bugs **pendientes** ordenados por prioridad.
-  - Contar el número total de bugs registrados.
+- Generar informes personalizados como:
+  - Informe por estado.
+  - Informe por responsables.
+  - Informe por severidad
+- Cada uno, informando cantidad de bugs correspondientes.
 
 ---
 
@@ -80,12 +84,11 @@
 
 El sistema presenta un menú interactivo con las siguientes opciones:
 
-1. **Registrar Incidencia** (Seleccionar tipo: Bug).
-2. **Listar todas las Incidencias**.
-3. **Buscar Incidencia** por ID o Estado.
-4. **Ordenar Incidencias** por Prioridad o Fecha.
-5. **Modificar una Incidencia**.
-6. **Eliminar una Incidencia**.
-7. **Generar Informe Personalizado**.
-8. **Salir**.
+1. **Registrar Bug**.
+2. **Listar Bug**.
+3. **Buscar Bug**.
+4. **Modificar Bug**.
+5. **Eliminar Bug**.
+6. **Informes**.
+7. **Salir**.
 

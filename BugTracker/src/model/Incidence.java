@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 // Modelo Incidencia 
@@ -99,8 +100,6 @@ public abstract class Incidence {
     public abstract String getDetalle();
 
     // Cargar incidencia con sus datos
-    public abstract void cargarDatos();
-
-
+    public abstract void cargarDatos() throws IOException;
 
 }

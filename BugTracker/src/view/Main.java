@@ -1,14 +1,14 @@
 package view;
 
+import java.io.IOException;
 import java.time.LocalDate;
-
 import javax.swing.JOptionPane;
-
 import model.Bug;
 import service.BugTracker;
 
 // Clase Principal
 public class Main {
+
     // Método para crear bugs de ejemplo al inicio
     private static void inicializarBugsEjemplo() {
         // Crear algunos bugs de prueba con todos los parámetros del constructor
@@ -26,125 +26,124 @@ public class Main {
         BugTracker.cantidadBugs = 3;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         inicializarBugsEjemplo();
 
         boolean continuar = true;
 
         while (continuar) {
             boolean seguir = true;
-            String[] opciones = { "Crear Bug", "Listar bugs", "Modificar Bug", "Eliminar Bug", "Buscar Bug",
-                    "Informes",
-                    "Salir" };
+            String[] opciones = {"Crear Bug", "Listar bugs", "Modificar Bug", "Eliminar Bug", "Buscar Bug",
+                "Informes",
+                "Salir"};
             int selection = JOptionPane.showOptionDialog(null, "¿Qué desea hacer?",
                     "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones,
                     opciones[0]);
-
-            switch (selection) {
-                case 0:
-                    // crear algunos bugs
-                    BugTracker.crearBug();
-                    break;
-                case 1:
-                    // Listamos bugs
-                    seguir = true;
-                    while (seguir) {
-                        String[] opcionesListar = { "Listar ordenados por fecha de creación", "Listar ordenados por ID",
-                                "Menú Principal" };
-                        int selectionListar = JOptionPane.showOptionDialog(null, "¿Como desea listar los registros?",
-                                "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                                opcionesListar,
-                                opcionesListar[0]);
-                        switch (selectionListar) {
-                            case 0:
-                                BugTracker.listarBugsPorFechaAscendiente();
-                                break;
-                            case 1:
-                                BugTracker.listarBugsPorId();
-                            case 2:
-                                seguir = false;
-                                break;
-                            default:
-                                seguir = false;
-                                break;
+            try {
+                switch (selection) {
+                    case 0 -> // crear algunos bugs
+                        BugTracker.crearBug();
+                    // mostrar inmediatamente el bug creado
+                    case 1 -> {
+                        // Listamos bugs
+                        seguir = true;
+                        while (seguir) {
+                            String[] opcionesListar = {"Listar ordenados por fecha de creación", "Listar ordenados por ID",
+                                "Menú Principal"};
+                            int selectionListar = JOptionPane.showOptionDialog(null, "¿Como desea listar los registros?",
+                                    "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                    opcionesListar,
+                                    opcionesListar[0]);
+                            switch (selectionListar) {
+                                case 0:
+                                    BugTracker.listarBugsPorFechaAscendiente();
+                                    break;
+                                case 1:
+                                    BugTracker.listarBugsPorId();
+                                case 2:
+                                    seguir = false;
+                                    break;
+                                default:
+                                    seguir = false;
+                                    break;
+                            }
                         }
                     }
-                    break;
-                case 2:
-                    BugTracker.modificarBug();
-                    break;
-                case 3:
-                    BugTracker.eliminarBug();
-                    break;
-                case 4:
-                    seguir = true;
-                    while (seguir) {
-                        String[] opcionesBusqueda = { "Búsqueda por ID", "Búsqueda por título", "Búsqueda por estado",
+                    case 2 ->
+                        BugTracker.modificarBug();
+                    case 3 ->
+                        BugTracker.eliminarBug();
+                    case 4 -> {
+                        seguir = true;
+                        while (seguir) {
+                            String[] opcionesBusqueda = {"Búsqueda por ID", "Búsqueda por responsable", "Búsqueda por estado",
                                 "Búsqueda por severidad",
-                                "Menú principal" };
-                        int selectionBusqueda = JOptionPane.showOptionDialog(null, "Qué tipo de búsqueda desea usar?",
-                                "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                                opcionesBusqueda,
-                                opcionesBusqueda[0]);
+                                "Menú principal"};
+                            int selectionBusqueda = JOptionPane.showOptionDialog(null, "Qué tipo de búsqueda desea usar?",
+                                    "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                    opcionesBusqueda,
+                                    opcionesBusqueda[0]);
 
-                        switch (selectionBusqueda) {
-                            case 0:
-                                BugTracker.buscarBugPorID();
-                                break;
-                            case 1:
-                                BugTracker.buscarBugPorNombre();
-                                break;
-                            case 2:
-                                BugTracker.buscarBugPorEstado();
-                                break;
-                            case 3:
-                                BugTracker.buscarBugPorSeveridad();
-                                break;
-                            case 4:
-                                seguir = false;
-                                break;
-                            default:
-                                seguir = false;
-                                break;
+                            switch (selectionBusqueda) {
+                                case 0:
+                                    BugTracker.buscarBugPorID();
+                                    break;
+                                case 1:
+                                    BugTracker.buscarBugPorNombre();
+                                    break;
+                                case 2:
+                                    BugTracker.buscarBugPorEstado();
+                                    break;
+                                case 3:
+                                    BugTracker.buscarBugPorSeveridad();
+                                    break;
+                                case 4:
+                                    seguir = false;
+                                    break;
+                                default:
+                                    seguir = false;
+                                    break;
+                            }
                         }
                     }
-                    break;
-                case 5:
-                    seguir = true;
-                    while (seguir) {
-                        String[] opcioneInforme = { "Informe por estado", "Informe por nombre", "Informe por severidad",
-                                "Menú principal" };
-                        int seleccionInforme = JOptionPane.showOptionDialog(null, "Qué tipo de búsqueda desea usar?",
-                                "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                                opcioneInforme,
-                                opcioneInforme[0]);
+                    case 5 -> {
+                        seguir = true;
+                        while (seguir) {
+                            String[] opcioneInforme = {"Informe por estado", "Informe por responsables", "Informe por severidad",
+                                "Menú principal"};
+                            int seleccionInforme = JOptionPane.showOptionDialog(null, "Qué tipo de informe desea generar?",
+                                    "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                                    opcioneInforme,
+                                    opcioneInforme[0]);
 
-                        switch (seleccionInforme) {
-                            case 0:
-                                BugTracker.generarInformePorEstado();
-                                break;
-                            case 1:
-                                BugTracker.generarInformePorNombre();
-                                break;
-                            case 2:
-                                BugTracker.generarInformePorSeveridad();
-                                break;
-                            case 3:
-                                seguir = false;
-                                break;
-                            default:
-                                seguir = false;
-                                break;
+                            switch (seleccionInforme) {
+                                case 0:
+                                    BugTracker.generarInformePorEstado();
+                                    break;
+                                case 1:
+                                    BugTracker.generarInformePorNombre();
+                                    break;
+                                case 2:
+                                    BugTracker.generarInformePorSeveridad();
+                                    break;
+                                case 3:
+                                    seguir = false;
+                                    break;
+                                default:
+                                    seguir = false;
+                                    break;
+                            }
                         }
                     }
-                    break;
-                case 6:
-                    JOptionPane.showMessageDialog(null, "Saliendo del programa");
-                    continuar = false;
-                    break;
-                default:
-                    continuar = false;
-                    break;
+                    case 6 -> {
+                        JOptionPane.showMessageDialog(null, "Saliendo del programa");
+                        continuar = false;
+                    }
+                    default ->
+                        continuar = false;
+                }
+            } catch (IOException e) {
+
             }
         }
     }

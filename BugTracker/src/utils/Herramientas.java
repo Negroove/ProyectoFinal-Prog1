@@ -1,9 +1,9 @@
 package utils;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
 import javax.swing.JOptionPane;
 
 public class Herramientas {
@@ -34,16 +34,14 @@ public class Herramientas {
     }
 
     // Solicitar numero entero
-    public static int solicitarEntero(String mensaje) {
+    public static int solicitarEntero(String mensaje) throws IOException {
         boolean esValido = false;
         int valor = 0;
         while (!esValido) {
             try {
                 String entrada = JOptionPane.showInputDialog(mensaje);
                 if (entrada == null) {
-                    JOptionPane.showMessageDialog(null, "Operación cancelada.", "Saliendo",
-                            JOptionPane.INFORMATION_MESSAGE);
-
+                    throw new IOException("Entrada de datos cancelada por el usuario.");
                 }
                 valor = Integer.parseInt(entrada);
                 if (valor <= 0) {
@@ -61,16 +59,14 @@ public class Herramientas {
     }
 
     // Solcitiar Texto
-    public static String solicitarTexto(String mensaje) {
+    public static String solicitarTexto(String mensaje) throws IOException {
         String texto = "";
         boolean esValido = false;
 
         while (!esValido) {
             texto = JOptionPane.showInputDialog(mensaje);
             if (texto == null) {
-                JOptionPane.showMessageDialog(null, "Operación cancelada.", "Saliendo",
-                        JOptionPane.INFORMATION_MESSAGE);
-                return null;
+                throw new IOException("Entrada de datos cancelada por el usuario.");
             }
             if (texto.trim().isEmpty()) { //
                 JOptionPane.showMessageDialog(null, "El texto no puede estar vacío. Intente de nuevo.");
@@ -88,10 +84,9 @@ public class Herramientas {
     }
 
     // se declara parametro generico T para que solamente pueda ser usados en Enums
-    public static <T extends Enum<T>> T mostrarOpcionesConEnum(String mensaje, Class<T> opcionesEnum) {
+    public static <T extends Enum<T>> T mostrarOpcionesConEnum(String mensaje, Class<T> opcionesEnum) throws IOException {
 
         // Convertir los valores del enum en un arreglo de strings
-
         T[] valoresEnum = opcionesEnum.getEnumConstants();
         String[] opciones = new String[valoresEnum.length];
 
@@ -112,14 +107,14 @@ public class Herramientas {
 
         // Si el usuario no selecciona nada, devolvemos null
         if (seleccion == JOptionPane.CLOSED_OPTION) {
-            return null;
+            throw new IOException("Entrada de datos cancelada por el usuario.");
         }
 
         // Devolver el valor correspondiente del enum
         return valoresEnum[seleccion];
     }
 
-    public static LocalDate solicitarFecha(String mensaje) {
+    public static LocalDate solicitarFecha(String mensaje) throws IOException {
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate fecha = null;
         boolean esValido = false;
@@ -127,9 +122,11 @@ public class Herramientas {
         while (!esValido) {
             try {
                 String entrada = Herramientas.solicitarTexto(mensaje);
-                if (entrada == null || entrada.trim().isEmpty()) {
-                    Herramientas.mostrarMensajes("Operacion Cancelada", "Saliendo", 1);
-                    System.exit(0);
+                if (entrada == null) {
+                    throw new IOException();
+                }
+                if (entrada.trim().isEmpty()) { //
+                    JOptionPane.showMessageDialog(null, "La fecha no puede estar vacía. Intente de nuevo.");
                 }
                 fecha = LocalDate.parse(entrada, formatoFecha);
                 esValido = true; //  fecha valida, sale del bucle 

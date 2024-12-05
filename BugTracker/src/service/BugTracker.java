@@ -1,28 +1,28 @@
 package service;
 
+import java.io.IOException;
 import java.time.LocalDate;
-
 import javax.swing.JOptionPane;
-
 import model.Bug;
 import model.Bug.Severidad;
 import model.Incidence.Estado;
 import utils.Herramientas;
 
 // Logica 
-
 public class BugTracker {
+
     public static Bug[] bugs = new Bug[100];
     public static int cantidadBugs = 0;
 
     // crear bug
-    public static Bug crearBug() {
+    public static Bug crearBug() throws IOException {
 
         Bug bug = new Bug();
         bug.setId();
         bug.cargarDatos();
         bugs[cantidadBugs] = bug;
         cantidadBugs++;
+        JOptionPane.showMessageDialog(null, "Bug creado:\n\n" + bug.getDetalle());
         return bug;
     }
 
@@ -42,7 +42,7 @@ public class BugTracker {
 
     // #region Métodos buscadores
     // buscar bugs por ID
-    public static Bug buscarBugPorID() {
+    public static Bug buscarBugPorID() throws IOException {
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
                     "Error", 0);
@@ -69,14 +69,14 @@ public class BugTracker {
         return null;
     }
 
-    // buscar bugs por título
-    public static void buscarBugPorNombre() {
+    // buscar bugs por nombre
+    public static void buscarBugPorNombre() throws IOException {
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
             return;
         }
 
-        String nombreBuscado = Herramientas.solicitarTexto("Ingresá el nombre del bug que buscas").toLowerCase();
+        String nombreBuscado = Herramientas.solicitarTexto("Ingresá el nombre del responsable del/los bug/s que buscas").toLowerCase();
         StringBuilder nombresEncontrados = new StringBuilder("Coincidencias encontradas:\n");
 
         boolean encontrado = false;
@@ -88,15 +88,15 @@ public class BugTracker {
         }
 
         if (encontrado) {
-            Herramientas.mostrarMensajes(nombresEncontrados.toString(), "Búsqueda por título", 1);
+            Herramientas.mostrarMensajes(nombresEncontrados.toString(), "Búsqueda por nombre del responsable", 1);
         } else {
             Herramientas.mostrarMensajes("No se ha encontrado ninguna coincidencia con: " + nombreBuscado,
-                    "Búsqueda por título", 0);
+                    "Búsqueda por nombre del responsable", 0);
         }
     }
 
     // buscar bugs por estado
-    public static void buscarBugPorEstado() {
+    public static void buscarBugPorEstado() throws IOException {
         boolean encontrado = false;
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
@@ -123,7 +123,7 @@ public class BugTracker {
     }
 
     // buscar bugs por severidad
-    public static void buscarBugPorSeveridad() {
+    public static void buscarBugPorSeveridad() throws IOException {
         boolean encontrado = false;
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder buscar luego.",
@@ -153,7 +153,7 @@ public class BugTracker {
     // #region Métodos Ordenadores
     // Listar bugs ordenados por fecha de creacion
     public static void listarBugsPorFechaAscendiente() {
-        StringBuilder sb = new StringBuilder("Bugs ordenados por fecha: \n");
+        StringBuilder sb = new StringBuilder("Bugs ordenados por fecha: \n\n");
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
             return;
@@ -179,7 +179,7 @@ public class BugTracker {
     }
 
     public static void listarBugsPorId() {
-        StringBuilder sb = new StringBuilder("Bugs ordenados por ID: \n");
+        StringBuilder sb = new StringBuilder("Bugs ordenados por ID: \n\n");
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados.", "Error", 0);
             return;
@@ -204,7 +204,7 @@ public class BugTracker {
     // #endregion
 
     // modificar bug, nombre, descripcion, prioridad o estado, solicitar ID del bug
-    public static Bug modificarBug() {
+    public static Bug modificarBug() throws IOException {
         if (cantidadBugs == 0) {
             Herramientas.mostrarMensajes("No hay bugs registrados, asegurate de registrar para poder modificar luego.",
                     "Error", 0);
@@ -224,22 +224,23 @@ public class BugTracker {
                 inicio = centro + 1;
             } else {
                 while (seguir) {
-                    String[] opcionesModificar = { "Modificar nombre", "Modificar descripción", "Modificar prioridad",
-                            "Modificar estado", "Menú principal" };
+                    String[] opcionesModificar = {"Modificar nombre del responsable", "Modificar descripción", "Modificar prioridad",
+                        "Modificar estado", "Menú principal"};
                     int selectionModificar = JOptionPane.showOptionDialog(null,
                             "¿Qué desea modificar?\n\n" + bugs[centro].getDetalle(),
                             "BugTracker", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                             opcionesModificar,
                             opcionesModificar[0]);
                     switch (selectionModificar) {
-                        case 0:
-                            String nuevoNombre = Herramientas.solicitarTexto("Ingresá el nuevo nombre del bug");
+                        case 0 -> {
+                            String nuevoNombre = Herramientas.solicitarTexto("Ingresá el nuevo nombre del responsable del bug");
                             bugs[centro].setNombre(nuevoNombre);
-                            Herramientas.mostrarMensajes("Nombre modificado con éxito.\n\n" + bugs[centro].getDetalle(),
+                            Herramientas.mostrarMensajes("Nombre del responsable modificado con éxito.\n\n" + bugs[centro].getDetalle(),
                                     "Modificación de Bug", 1);
                             return bugs[centro];
+                        }
 
-                        case 1:
+                        case 1 -> {
                             String nuevaDescripcion = Herramientas
                                     .solicitarTexto("Ingresá la nueva descripción del bug");
                             bugs[centro].setDescripcion(nuevaDescripcion);
@@ -247,7 +248,8 @@ public class BugTracker {
                                     "Descripción modificada con éxito.\n\n" + bugs[centro].getDetalle(),
                                     "Modificación de Bug", 1);
                             return bugs[centro];
-                        case 2:
+                        }
+                        case 2 -> {
                             Bug.Prioridad nuevaPrioridad = Herramientas.mostrarOpcionesConEnum(
                                     "Seleccione la nueva prioridad del bug:",
                                     Bug.Prioridad.class);
@@ -256,7 +258,8 @@ public class BugTracker {
                                     "Prioridad modificada con éxito.\n\n" + bugs[centro].getDetalle(),
                                     "Modificación de Bug", 1);
                             return bugs[centro];
-                        case 3:
+                        }
+                        case 3 -> {
                             Bug.Estado nuevoEstado = Herramientas.mostrarOpcionesConEnum(
                                     "Seleccione el nuevo estado del bug:",
                                     Bug.Estado.class);
@@ -267,12 +270,9 @@ public class BugTracker {
                             Herramientas.mostrarMensajes("Estado modificado con éxito.\n\n" + bugs[centro].getDetalle(),
                                     "Modificación de Bug", 1);
                             return bugs[centro];
-                        case 4:
-                            seguir = false;
-                            break;
-                        default:
-                            seguir = false;
-                            break;
+                        }
+                        case 4 -> seguir = false;
+                        default -> seguir = false;
                     }
                 }
                 return null;
@@ -283,7 +283,7 @@ public class BugTracker {
     }
 
     // eliminar bug
-    public static void eliminarBug() {
+    public static void eliminarBug() throws IOException {
         Bug eliminar = buscarBugPorID();
         if (eliminar == null) {
             // buscarBugPorID() ya proporciona advertencia en caso de no existir registros.
